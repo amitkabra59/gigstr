@@ -1,4 +1,5 @@
 const pool = require('./pool');
+const jwt = require('jsonwebtoken');
 
 pool.on('connect', () => {
     console.log('connected to the db');
@@ -54,5 +55,24 @@ const statusToDone = (request, response) => {
     );
 }
 
+const login = (request, response) => {
+    const id = request.params.id;
+    pool.query('SELECT * FROM users.users where id = $1;', [id], (error, results) => {
+        if (error) {
+            console.error(error);
+            return response.status(500).send('Internal server error.');
+        }
+        if (results.rowCount === 1) {
+            console.log(results)
+            const token = jwt.sign({ _id: results.rows[0].role }, process.env.TOKEN_SECRET);
+            response.header({ 'auth-token': token });
+            return response.status(200).send(`User logged in with id: ${id}`);
+        }
+        else {
+            return response.status(400).send('Bad request, the user does not exist!');
+        }
+    });
+}
 
-module.exports = { getTasks, createTasks, assignTask, statusToDone }
+
+module.exports = { getTasks, createTasks, assignTask, statusToDone, login }

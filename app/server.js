@@ -16,6 +16,7 @@ app.get('/api/tasks', db.getTasks);
 app.post('/api/tasks', express.json({ type: 'application/json' }), db.createTasks);
 app.put('/api/tasks/:id/assign/', db.assignTask);
 app.put('/api/tasks/:id/done/', db.statusToDone);
+app.post('/api/login/:id', db.login);
 
 
 
