@@ -9,13 +9,14 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
-
-// Add middleware for parsing JSON and urlencoded data and populating `req.body`
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.get('/tasks', db.getTasks);
-app.post('/tasks', express.json({ type: 'application/json' }), db.createTasks)
+app.get('/api/tasks', db.getTasks);
+app.post('/api/tasks', express.json({ type: 'application/json' }), db.createTasks);
+app.put('/api/tasks/:id/assign/', db.assignTask);
+app.put('/api/tasks/:id/done/', db.statusToDone);
+
 
 
 app.listen(process.env.SERVER_PORT).on('listening', () => {
