@@ -27,9 +27,7 @@ describe('Tasks API', () => {
                 "status": "new",
                 "assignee_id": null
             }]).end((err, response) => {
-
                 response.should.have.status(status.created);
-                // response.text.should.equal(`Task added with id ${response.body.data}`);
                 response.created.should.equal(true);
                 done();
             });
@@ -81,13 +79,34 @@ describe('Tasks API', () => {
         });
     });
 
+    describe(" change STATUS to DONE /", () => {
+        it("Should change STATUS TO DONE", (done) => {
+            const id = '0550'
+            chai.request(app).put(`/api/task/${id}/done`).set('auth-token', process.env.GIGSTR_NEW_TOKEN).end((err, response, body) => {
+                response.text.should.equal(`Task modified with ID: ${id} `);
+                response.should.have.status(status.success);
+                done();
+            });
+        });
+    });
+
+    describe(" NOT change STATUS /", () => {
+        it("Admin cannot change status to done", (done) => {
+            const id = '0501'
+            chai.request(app).put(`/api/task/${id}/done`).set('auth-token', process.env.ADMIN_TOKEN).end((err, response, body) => {
+                response.text.should.equal(`Unauthorized`);
+                response.should.have.status(status.unauthorized);
+                done();
+            });
+        });
+    });
+
     describe("DELETE TASK /", () => {
         const id = '0550';
         it("It should DELETE a task", (done) => {
             chai.request(app).delete(`/api/admin/task/${id}`).set('auth-token', process.env.ADMIN_TOKEN).end((err, response) => {
-                response.should.have.status(status.created);
+                response.should.have.status(status.success);
                 response.text.should.equal(`Task deleted with id ${id}`);
-                response.created.should.equal(true);
                 done();
             });
         })

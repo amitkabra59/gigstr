@@ -12,6 +12,7 @@ const assignTaskQuery = 'UPDATE users.tasks SET status = $2, assignee_id = $3 WH
 const updateTaskQuery = 'UPDATE users.tasks SET status = $2 WHERE id = $1;';
 const alreadyAssignedTask = 'SELECT * FROM users.tasks WHERE assignee_id = $1;';
 const deleteTaskQuery = 'DELETE FROM users.tasks WHERE id = $1;';
+const getTaskByIdQuery = 'SELECT * FROM users.tasks WHERE id = $1;';
 
 module.exports = {
     userInfoQuery,
@@ -21,5 +22,6 @@ module.exports = {
     assignTaskQuery,
     updateTaskQuery,
     alreadyAssignedTask,
-    deleteTaskQuery
+    deleteTaskQuery,
+    getTaskByIdQuery
 };
