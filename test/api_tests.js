@@ -47,6 +47,18 @@ describe('Tasks API', () => {
         });
     });
 
+    describe(" NOT LOGIN /", () => {
+        it("It should NOT LOGIN", (done) => {
+            const id = '2010'
+            chai.request(app).post(`/api/login/${id}`).end((err, response, body) => {
+                response.should.not.have.header('auth-token');
+                response.should.have.status(status.bad);
+                response.text.should.equal('Bad request, the user does not exist!')
+                done();
+            });
+        });
+    });
+
     describe(" ASSIGN TASK /", () => {
         it("It should assign task", (done) => {
             const id = '0550'
@@ -127,7 +139,7 @@ describe("SECURE ROUTES", () => {
         })
     });
 
-    describe(" CANNOT ASSIGN TASK without valid token/", () => {
+    describe("CANNOT ASSIGN TASK without valid token/", () => {
         it("It should not assign task", (done) => {
             const id = '0526'
             chai.request(app).put(`/api/task/${id}/assign`).end((err, response, body) => {
@@ -194,6 +206,19 @@ describe("SECURE ROUTES", () => {
                 response.should.have.status(status.unauthorized);
                 response.text.should.equal('Unauthorized');
                 response.unauthorized.should.equal(true);
+                done();
+            });
+        });
+    });
+
+    describe("REFRESH token /", () => {
+        const token = process.env.TEST_REFRESH_TOKEN;
+        const secret = process.env.REFRESH_SECRET;
+        it("It should generate a new access and refresh tokens", (done) => {
+            chai.request(app).post(`/api/refresh`).set('refresh-token', token).end((err, response) => {
+                response.should.have.status(status.success);
+                response.should.have.header('auth-token');
+                response.should.have.header('refresh-token');
                 done();
             });
         });

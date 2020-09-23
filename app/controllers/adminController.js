@@ -1,6 +1,3 @@
-const { request } = require('chai');
-// 
-
 const pool = require('../../db/dev/pool');
 const { createTaskQuery, deleteTaskQuery } = require('../../db/dev/query');
 

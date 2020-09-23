@@ -13,28 +13,6 @@ const updateTaskQuery = 'UPDATE users.tasks SET status = $2 WHERE id = $1;';
 const alreadyAssignedTask = 'SELECT * FROM users.tasks WHERE assignee_id = $1;';
 const deleteTaskQuery = 'DELETE FROM users.tasks WHERE id = $1;';
 
-// const getCompletedTasks = (request, response) => {
-//     const status = "done";
-//     pool.query('SELECT * FROM users.tasks where status = $1 ORDER BY id;', [status], (error, results) => {
-//         if (error) {
-//             console.log(error.message)
-//             throw error
-//         }
-//         response.status(status.success).json(results.rows)
-//     })
-// };
-
-// const getNewTasks = (request, response) => {
-//     const status = "new";
-//     pool.query('SELECT * FROM users.tasks where status = $1 ORDER BY id;', [status], (error, results) => {
-//         if (error) {
-//             console.log(error.message)
-//             throw error
-//         }
-//         response.status(status.success).json(results.rows)
-//     })
-// };
-
 module.exports = {
     userInfoQuery,
     tasksListQuery,
