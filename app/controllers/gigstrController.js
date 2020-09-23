@@ -37,29 +37,11 @@ const assignTask = (request, response) => {
                         }
                     }
                     if (count === 0) {
-                        pool.query(
-                            assignTaskQuery,
-                            [id, taskStatus = 'assigned', userId],
-                            (error, results) => {
-                                if (error) {
-                                    throw error
-                                }
-                                response.status(status.success).send(`Task with ID: ${id} is assigned `);
-                            }
-                        );
+                        assignTaskFunc(id, userId, response);
                     }
                 }
                 else {
-                    pool.query(
-                        assignTaskQuery,
-                        [id, taskStatus = 'assigned', userId],
-                        (error, results) => {
-                            if (error) {
-                                throw error
-                            }
-                            response.status(status.success).send(`Task with ID: ${id} is assigned `);
-                        }
-                    );
+                    assignTaskFunc(id, userId, response);
                 }
             }
             else
@@ -68,6 +50,19 @@ const assignTask = (request, response) => {
     }
     else
         response.status(status.unauthorized).send("Unauthorised");
+}
+
+async function assignTaskFunc(id, userId, response) {
+    await pool.query(
+        assignTaskQuery,
+        [id, taskStatus = 'assigned', userId],
+        (error, results) => {
+            if (error) {
+                throw error
+            }
+            response.status(status.success).send(`Task with ID: ${id} is assigned `);
+        }
+    );
 }
 
 const markCompleted = (request, response) => {

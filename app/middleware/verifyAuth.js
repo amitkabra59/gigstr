@@ -19,7 +19,7 @@ const verifyToken = async (req, res, next) => {
     const token = req.header('auth-token');
     if (!token) {
         errorMessage.error = 'Token not provided';
-        return res.status(status.bad).send(errorMessage);
+        return res.status(status.unauthorized).send(errorMessage);
     }
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);

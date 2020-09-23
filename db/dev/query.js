@@ -10,7 +10,8 @@ const completedTasksQuery = 'SELECT * FROM users.tasks WHERE status = $1 ORDER B
 const createTaskQuery = 'INSERT INTO users.tasks (id, description, status, assignee_id) VALUES ($1, $2, $3,$4);';
 const assignTaskQuery = 'UPDATE users.tasks SET status = $2, assignee_id = $3 WHERE id = $1;';
 const updateTaskQuery = 'UPDATE users.tasks SET status = $2 WHERE id = $1;';
-const alreadyAssignedTask = 'SELECT * FROM users.tasks WHERE assignee_id = $1;'
+const alreadyAssignedTask = 'SELECT * FROM users.tasks WHERE assignee_id = $1;';
+const deleteTaskQuery = 'DELETE FROM users.tasks WHERE id = $1;';
 
 // const getCompletedTasks = (request, response) => {
 //     const status = "done";
@@ -41,5 +42,6 @@ module.exports = {
     createTaskQuery,
     assignTaskQuery,
     updateTaskQuery,
-    alreadyAssignedTask
+    alreadyAssignedTask,
+    deleteTaskQuery
 };
